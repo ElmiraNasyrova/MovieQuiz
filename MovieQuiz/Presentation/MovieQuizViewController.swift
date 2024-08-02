@@ -28,6 +28,7 @@ struct QuizResultsViewModel {
 
 final class MovieQuizViewController: UIViewController {
     
+    // MARK: Variables
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
@@ -84,10 +85,14 @@ final class MovieQuizViewController: UIViewController {
 
     
     // MARK: - Lifecycle
+    // первоначальные настройки
     override func viewDidLoad() {
         show(quiz: questions[currentQuestionIndex])
         super.viewDidLoad()
     }
+    
+    // взаимодейтсвие с кнопкой "Да"
+    // дизейблит кнопку и выводит результат ответа
     @IBAction func yesButtonClicked(_ sender: Any) {
         yesButton.isEnabled = false
         noButton.isEnabled = false
@@ -98,6 +103,8 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(isCorrect: currentQuestion == givenAnswer)
     }
     
+    // взаимодейтсвие с кнопкой "Нет"
+    // дизейблит кнопку и выводит результат ответа
     @IBAction func noButtonClicked(_ sender: Any) {
         yesButton.isEnabled = false
         noButton.isEnabled = false
@@ -118,7 +125,7 @@ final class MovieQuizViewController: UIViewController {
         return questionStep
     }
     
-    // приватный метод вывода на экран вопроса, который принимает на вход вью модель вопроса и ничего не возвращает
+    // метод вывода на экран вопроса, который принимает на вход вью модель вопроса и ничего не возвращает
     private func show(quiz questions: QuizQuestion) {
         // задаем начальные данные рамки
         imageView.layer.masksToBounds = true
@@ -136,7 +143,7 @@ final class MovieQuizViewController: UIViewController {
         textLabel.text = step.question
     }
     
-    // приватный метод, который меняет цвет рамки
+    // метод, который меняет цвет рамки
     private func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
@@ -149,7 +156,7 @@ final class MovieQuizViewController: UIViewController {
         }
     }
     
-    // приватный метод для показа результатов раунда квиза
+    // метод для показа результатов раунда квиза
     private func showResult(quiz result: QuizResultsViewModel) {
         // константа с кнопкой для системного алерта
         let alert = UIAlertController(
@@ -168,7 +175,7 @@ final class MovieQuizViewController: UIViewController {
     }
     
     
-    // приватный метод, который содержит логику перехода в один из сценариев
+    // метод, который содержит логику перехода в один из сценариев
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questions.count - 1 {
             let resultModel = QuizResultsViewModel(
