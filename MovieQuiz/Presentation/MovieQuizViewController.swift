@@ -2,27 +2,27 @@ import UIKit
 
 
 // структура вопроса
-struct QuizQuestion {
-  // строка с названием фильма, совпадает с названием картинки афиши фильма в Assets
-  let image: String
-  // строка с вопросом о рейтинге фильма
-  let text: String
-  // булевое значение (true, false), правильный ответ на вопрос
-  let correctAnswer: Bool
+private struct QuizQuestion {
+    // строка с названием фильма, совпадает с названием картинки афиши фильма в Assets
+    let image: String
+    // строка с вопросом о рейтинге фильма
+    let text: String
+    // булевое значение (true, false), правильный ответ на вопрос
+    let correctAnswer: Bool
 }
 
 // для состояния "Вопрос показан"
-struct QuizStepViewModel {
-  let image: UIImage
-  let question: String
-  let questionNumber: String
+private struct QuizStepViewModel {
+    let image: UIImage
+    let question: String
+    let questionNumber: String
 }
 
 // для состояния "Результат квиза"
-struct QuizResultsViewModel {
-  let title: String
-  let text: String
-  let buttonText: String
+private struct QuizResultsViewModel {
+    let title: String
+    let text: String
+    let buttonText: String
 }
 
 
@@ -36,9 +36,9 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var yesButton: UIButton!
     
     // переменная с индексом текущего вопроса
-    private var currentQuestionIndex = 0
+    private var currentQuestionIndex: Int = .zero
     // переменная со счётчиком правильных ответов
-    private var correctAnswers = 0
+    private var correctAnswers: Int = .zero
     // массив вопросов
     private let questions: [QuizQuestion] = [
         QuizQuestion(
@@ -82,7 +82,7 @@ final class MovieQuizViewController: UIViewController {
             text: "Рейтинг этого фильма больше чем 6?",
             correctAnswer: false)
     ]
-
+    
     
     // MARK: - Lifecycle
     // первоначальные настройки
@@ -93,26 +93,18 @@ final class MovieQuizViewController: UIViewController {
     
     // взаимодейтсвие с кнопкой "Да"
     // дизейблит кнопку и выводит результат ответа
-    @IBAction func yesButtonClicked(_ sender: Any) {
-        yesButton.isEnabled = false
-        noButton.isEnabled = false
-        yesButton.backgroundColor = UIColor.YPGray
-        noButton.backgroundColor = UIColor.YPGray
-        let currentQuestion = questions[currentQuestionIndex].correctAnswer
-        let givenAnswer = true
-        showAnswerResult(isCorrect: currentQuestion == givenAnswer)
+    @IBAction private func yesButtonClicked(_ sender: Any) {
+        changeStateButton(isEnabled: false)
+        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer == true)
     }
     
     // взаимодейтсвие с кнопкой "Нет"
     // дизейблит кнопку и выводит результат ответа
-    @IBAction func noButtonClicked(_ sender: Any) {
-        yesButton.isEnabled = false
-        noButton.isEnabled = false
+    @IBAction private func noButtonClicked(_ sender: Any) {
+        changeStateButton(isEnabled: false)
         yesButton.backgroundColor = UIColor.YPGray
         noButton.backgroundColor = UIColor.YPGray
-        let currentQuestion = questions[currentQuestionIndex].correctAnswer
-        let givenAnswer = false
-        showAnswerResult(isCorrect: currentQuestion == givenAnswer)
+        showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer == false)
     }
     
     // метод конвертации, который принимает моковый вопрос и возвращает вью модель для экрана вопроса
@@ -131,9 +123,8 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.YPBlack.cgColor
-        imageView.layer.cornerRadius = 6
-        yesButton.isEnabled = true
-        noButton.isEnabled = true
+        imageView.layer.cornerRadius = 20
+        changeStateButton(isEnabled: true)
         yesButton.backgroundColor = UIColor.YPWhite
         noButton.backgroundColor = UIColor.YPWhite
         
@@ -168,9 +159,9 @@ final class MovieQuizViewController: UIViewController {
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             self.show(quiz: self.questions[self.currentQuestionIndex])
-      }
+        }
         alert.addAction(action)
-
+        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -188,6 +179,11 @@ final class MovieQuizViewController: UIViewController {
             currentQuestionIndex += 1
             show(quiz: questions[currentQuestionIndex])
         }
+    }
+    
+    private func changeStateButton(isEnabled: Bool) {
+        noButton.isEnabled = isEnabled
+        yesButton.isEnabled = isEnabled
     }
 }
 
@@ -253,4 +249,4 @@ final class MovieQuizViewController: UIViewController {
  Настоящий рейтинг: 5,8
  Вопрос: Рейтинг этого фильма больше чем 6?
  Ответ: НЕТ
-*/
+ */
