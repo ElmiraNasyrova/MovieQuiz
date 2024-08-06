@@ -95,6 +95,8 @@ final class MovieQuizViewController: UIViewController {
     // дизейблит кнопку и выводит результат ответа
     @IBAction private func yesButtonClicked(_ sender: Any) {
         changeStateButton(isEnabled: false)
+        yesButton.backgroundColor = UIColor.ypGray
+        noButton.backgroundColor = UIColor.ypGray
         showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer == true)
     }
     
@@ -102,8 +104,8 @@ final class MovieQuizViewController: UIViewController {
     // дизейблит кнопку и выводит результат ответа
     @IBAction private func noButtonClicked(_ sender: Any) {
         changeStateButton(isEnabled: false)
-        yesButton.backgroundColor = UIColor.YPGray
-        noButton.backgroundColor = UIColor.YPGray
+        yesButton.backgroundColor = UIColor.ypGray
+        noButton.backgroundColor = UIColor.ypGray
         showAnswerResult(isCorrect: questions[currentQuestionIndex].correctAnswer == false)
     }
     
@@ -122,11 +124,11 @@ final class MovieQuizViewController: UIViewController {
         // задаем начальные данные рамки
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.YPBlack.cgColor
+        imageView.layer.borderColor = UIColor.ypBlack.cgColor
         imageView.layer.cornerRadius = 20
         changeStateButton(isEnabled: true)
-        yesButton.backgroundColor = UIColor.YPWhite
-        noButton.backgroundColor = UIColor.YPWhite
+        yesButton.backgroundColor = UIColor.ypWhite
+        noButton.backgroundColor = UIColor.ypWhite
         
         let step = convert(model: questions)
         counterLabel.text = step.questionNumber
@@ -140,7 +142,7 @@ final class MovieQuizViewController: UIViewController {
             correctAnswers += 1
         }
         imageView.layer.borderWidth = 8
-        imageView.layer.borderColor = isCorrect ? UIColor.YPGreen.cgColor : UIColor.YPRed.cgColor
+        imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.showNextQuestionOrResults()
